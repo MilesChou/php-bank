@@ -25,6 +25,9 @@
     </rule>
 
     <!-- Paths and file to check -->
+    <file>bin</file>
+    <file>console</file>
+    <file>src</file>
     <file>tests</file>
 
     <!-- exclude file, e.g. Cache -->

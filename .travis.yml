@@ -21,6 +21,7 @@ script:
 - php vendor/bin/codecept clean
 - php vendor/bin/codecept build
 - php vendor/bin/codecept run --coverage-html
+- php bin/app
 
 cache:
   directories:
