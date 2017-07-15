@@ -1,0 +1,27 @@
+sudo: false
+os: linux
+dist: trusty
+language: php
+php:
+- 5.5
+- 5.6
+- 7.0
+- 7.1
+
+branches:
+  only:
+  - master
+  - "/^\\d+\\.\\d+\\.\\d+$/"
+
+before_script:
+- composer install
+
+script:
+- php vendor/bin/phpcs
+- php vendor/bin/codecept clean
+- php vendor/bin/codecept build
+- php vendor/bin/codecept run --coverage-html
+
+cache:
+  directories:
+  - vendor
