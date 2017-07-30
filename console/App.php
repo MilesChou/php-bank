@@ -10,6 +10,7 @@ class App extends Application
         parent::__construct('Developer Tools');
 
         $this->addCommands([
+            new Command\Build(),
         ]);
     }
 }

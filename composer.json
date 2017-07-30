@@ -10,7 +10,9 @@
         }
     ],
     "require": {
-        "php": ">=5.5"
+        "php": ">=5.6",
+        "illuminate/support": "5.4.*",
+        "mileschou/util": "^1.0"
     },
     "require-dev": {
         "codeception/codeception": "^2.3",

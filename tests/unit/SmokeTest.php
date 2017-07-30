@@ -13,8 +13,8 @@ class SmokeTest extends \Codeception\Test\Unit
      */
     public function shouldBeOkayWhenSmokeTest()
     {
-        $target = new Query();
+        $target = new Bank();
 
-        $this->assertInstanceOf(Query::class, $target);
+        $this->assertInstanceOf(Bank::class, $target);
     }
 }
