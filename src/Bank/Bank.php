@@ -1,12 +1,10 @@
 <?php
 namespace MilesChou\Bank;
 
-use Illuminate\Support\Collection;
-
-class Bank extends Collection
+class Bank
 {
     /**
-     * @var Resource
+     * @var ResourceInterface
      */
     protected static $defaultResource;
 
@@ -21,22 +19,12 @@ class Bank extends Collection
     protected $branchCode;
 
     /**
-     * @param Resource $resource
-     * @return static
+     * @var array
      */
-    public static function create(Resource $resource = null)
-    {
-        if (null === $resource) {
-            $resource = static::getDefaultResource();
-        }
-
-        $data = $resource->getData();
-
-        return static::make($data);
-    }
+    protected $data;
 
     /**
-     * @return Resource
+     * @return ResourceInterface
      */
     public static function getDefaultResource()
     {
@@ -56,16 +44,35 @@ class Bank extends Collection
     }
 
     /**
+     * @param ResourceInterface|null $resource
+     */
+    public function __construct(ResourceInterface $resource = null)
+    {
+        if (null === $resource) {
+            $resource = static::getDefaultResource();
+        }
+
+        $this->data = $resource->getData();
+    }
+
+    /**
      * @return array
      */
     public function getBankCode()
     {
         if (null === $this->bankCode) {
-            $this->bankCode = $this->filter(function ($item) {
+            $this->bankCode = array_filter($this->data, function ($item) {
                 return '' === trim($item[1]);
-            })->sortBy(0)->keyBy(0)->transform(function ($item) {
-                return $item[2];
-            })->all();
+            });
+
+            $this->bankCode = array_reduce($this->bankCode, function ($carry, $item) {
+                $key = (string)$item[0];
+                $carry[$key] = $item[2];
+
+                return $carry;
+            }, []);
+
+            ksort($this->bankCode, SORT_NATURAL);
         }
 
         return $this->bankCode;
@@ -77,11 +84,18 @@ class Bank extends Collection
     public function getBranchCode()
     {
         if (null === $this->branchCode) {
-            $this->branchCode = $this->filter(function ($item) {
+            $this->branchCode = array_filter($this->data, function ($item) {
                 return '' !== trim($item[1]);
-            })->sortBy(0)->keyBy(1)->transform(function ($item) {
-                return $item[2];
-            })->all();
+            });
+
+            $this->branchCode = array_reduce($this->branchCode, function ($carry, $item) {
+                $key = (string)$item[1];
+                $carry[$key] = $item[2];
+
+                return $carry;
+            }, []);
+
+            ksort($this->branchCode, SORT_NATURAL);
         }
 
         return $this->branchCode;

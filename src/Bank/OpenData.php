@@ -16,7 +16,7 @@ class OpenData extends Resource implements GuzzleClientAwareInterface
             ],
         ]);
 
-        $response = $client->get('https://www.banking.gov.tw/ch/ap/bankno_text.jsp');
+        $response = $client->get('http://www.banking.gov.tw/ch/ap/bankno_text.jsp');
         $content = (string)$response->getBody();
         $content = explode("\n", $content);
 
