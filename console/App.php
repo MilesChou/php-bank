@@ -11,6 +11,7 @@ class App extends Application
 
         $this->addCommands([
             new Command\Build(),
+            new Command\Export(),
         ]);
     }
 }
